@@ -1,11 +1,11 @@
 #include "fork.h"
 
 void childAction(){
-	printf("Child Process: %d\n", getpid());
-	srand(time(NULL));
+	srand(time(NULL) + getpid());
 	int ranelement = (rand() % 4) + 2;
+	printf("Child Process: %d: %d\n", getpid(), ranelement);
 	sleep(ranelement);
-	printf("Now I die. How could you do this to me?!?\n");
+	printf("Now %d die. How could you do this to me?!?\n", getpid());
 	exit(ranelement);
 }
 
@@ -18,12 +18,12 @@ void main(){
 			if (getpid() != parent){
 				childAction();
 			}
-			int timing;
-			wait(&timing);
-			printf("Child %d has finished in %d seconds\n", child, timing);
 		}
 	}
 	if (getpid() == parent){
+		int timing;
+		int child = wait(&timing);
+		printf("Child %d has finished in %d seconds\n", child, WIFEXITED(timing));
 		printf("That's all, folks!\n");
 	}
 
