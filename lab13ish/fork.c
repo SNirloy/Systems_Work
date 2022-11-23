@@ -23,7 +23,7 @@ void main(){
 	if (getpid() == parent){
 		int timing;
 		int child = wait(&timing);
-		printf("Child %d has finished in %d seconds\n", child, WIFEXITED(timing));
+		printf("Child %d has finished in %d seconds\n", child, WEXITSTATUS(timing));
 		printf("That's all, folks!\n");
 	}
 
